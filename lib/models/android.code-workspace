@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "../../android"
+		},
+		{
+			"path": "../../build"
+		},
+		{
+			"path": "../../ios"
+		},
+		{
+			"path": ".."
+		}
+	]
+}
