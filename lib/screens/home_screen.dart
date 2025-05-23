@@ -23,6 +23,7 @@ class HomeScreen extends StatefulWidget {
   final DocumentCallback onEditDocument; // Prend un Document
   final DocumentCallback onToggleFavorite; // Nouveau
   final DocumentCallback onViewDocument;   // Nouveau (pour mettre à jour lastOpened en tapant sur la carte)
+  final Set<String> processingFavoriteIds; // Ajout pour l'indicateur de chargement
   
   const HomeScreen({
     Key? key,
@@ -33,6 +34,7 @@ class HomeScreen extends StatefulWidget {
     required this.onEditDocument,
     required this.onToggleFavorite, // Ajouter
     required this.onViewDocument,   // Ajouter
+    required this.processingFavoriteIds, // Ajout pour l'indicateur de chargement
   }) : super(key: key);
 
   @override
@@ -167,6 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onOpenFile: () => widget.onOpenFile(document.filePath, document), // Passer le document
                       onDelete: () => widget.onTrashDocument(document),
                       onToggleFavorite: () => widget.onToggleFavorite(document), // Connecter la callback
+                      isFavoriteProcessing: widget.processingFavoriteIds.contains(document.id), // Passer l'état de chargement
                     );
                   },
                 ),

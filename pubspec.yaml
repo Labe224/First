@@ -31,7 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.6
-  # uuid: ^4.3.3 # Commenté car non utilisé actuellement pour la version en mémoire simple
+  uuid: ^4.3.3
   file_picker: ^6.1.1
   path_provider: ^2.0.0
   open_filex: ^4.0.0

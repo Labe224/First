@@ -8,6 +8,7 @@ class DocumentCard extends StatelessWidget {
   final VoidCallback onDelete;
   final VoidCallback? onOpenFile;
   final VoidCallback? onToggleFavorite;
+  final bool isFavoriteProcessing;
 
   const DocumentCard({
     Key? key,
@@ -16,6 +17,7 @@ class DocumentCard extends StatelessWidget {
     required this.onDelete,
     this.onOpenFile,
     this.onToggleFavorite,
+    this.isFavoriteProcessing = false,
   }) : super(key: key);
 
   @override
@@ -45,17 +47,19 @@ class DocumentCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   if (onToggleFavorite != null)
-                    IconButton(
-                      icon: Icon(
-                        document.isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: document.isFavorite ? theme.colorScheme.error : theme.colorScheme.outline,
-                        size: 24,
-                      ),
-                      onPressed: onToggleFavorite,
-                      tooltip: document.isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris',
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(),
-                    ),
+                    isFavoriteProcessing
+                        ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2.0))
+                        : IconButton(
+                            icon: Icon(
+                              document.isFavorite ? Icons.favorite : Icons.favorite_border,
+                              color: document.isFavorite ? theme.colorScheme.error : theme.colorScheme.outline,
+                              size: 24,
+                            ),
+                            onPressed: onToggleFavorite,
+                            tooltip: document.isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris',
+                            padding: EdgeInsets.zero,
+                            constraints: const BoxConstraints(),
+                          ),
                   if (onOpenFile != null && document.filePath != null && document.filePath!.isNotEmpty)
                     IconButton(
                       icon: Icon(Icons.open_in_new, color: theme.colorScheme.secondary, size: 24),

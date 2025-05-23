@@ -10,12 +10,16 @@ class TrashScreen extends StatelessWidget {
   final List<Document> allDocuments; // La liste complète de tous les documents
   final OnDocumentAction onRestoreDocument;
   final OnDocumentAction onPermanentlyDeleteDocument;
+  final Set<String> processingRestoreIds;
+  final Set<String> processingDeleteIds;
 
   const TrashScreen({
     Key? key,
     required this.allDocuments,
     required this.onRestoreDocument,
     required this.onPermanentlyDeleteDocument,
+    required this.processingRestoreIds,
+    required this.processingDeleteIds,
   }) : super(key: key);
 
   List<Document> get _trashedDocuments => allDocuments.where((doc) => doc.isTrashed).toList();
@@ -83,15 +87,20 @@ class TrashScreen extends StatelessWidget {
                             onPressed: () => _openFile(context, document.filePath),
                             tooltip: 'Ouvrir le fichier',
                           ),
-                        IconButton(
-                          icon: Icon(Icons.restore_from_trash, color: theme.colorScheme.primary),
-                          onPressed: () => onRestoreDocument(document),
-                          tooltip: 'Restaurer',
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.delete_forever, color: theme.colorScheme.error),
-                          onPressed: () => onPermanentlyDeleteDocument(document),
-                          tooltip: 'Supprimer définitivement',
+                        widget.processingRestoreIds.contains(document.id)
+                            ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2.0))
+                            : IconButton(
+                                icon: Icon(Icons.restore_from_trash, color: theme.colorScheme.primary),
+                                onPressed: () => onRestoreDocument(document),
+                                tooltip: 'Restaurer',
+                              ),
+                        widget.processingDeleteIds.contains(document.id)
+                            ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(strokeWidth: 2.0))
+                            : IconButton(
+                                icon: Icon(Icons.delete_forever, color: theme.colorScheme.error),
+                                onPressed: () => onPermanentlyDeleteDocument(document),
+                                tooltip: 'Supprimer définitivement',
+                              ),
                         ),
                       ],
                     ),

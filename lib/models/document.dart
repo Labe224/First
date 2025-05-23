@@ -1,4 +1,7 @@
+import 'package:uuid/uuid.dart';
+
 class Document {
+  final String id;
   final String title;
   final String description;
   final String category;
@@ -11,6 +14,7 @@ class Document {
   DateTime? lastOpened;   // Champ pour l'historique de consultation
 
   Document({
+    required this.id,
     required this.title,
     required this.description,
     required this.category,
@@ -24,6 +28,7 @@ class Document {
   });
 
   Document copyWith({
+    String? id,
     String? title,
     String? description,
     String? category,
@@ -36,6 +41,7 @@ class Document {
     DateTime? lastOpened,
   }) {
     return Document(
+      id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
       category: category ?? this.category,
@@ -51,6 +57,7 @@ class Document {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'title': title,
       'description': description,
       'category': category,
@@ -66,6 +73,7 @@ class Document {
 
   factory Document.fromJson(Map<String, dynamic> json) {
     return Document(
+      id: json['id'],
       title: json['title'],
       description: json['description'],
       category: json['category'],
